@@ -1,0 +1,7 @@
+To run...
+
+    go run ./main.go
+
+Build the program to an executable called hw.
+
+    go build -o hw main.go
