@@ -31,4 +31,22 @@ func main() {
 	var myVar helpers.MyStruct
 	myVar.FirstName = "John"
 	fmt.Println(myVar.PrintFirstName())
+
+	// Maps
+	myMap := helpers.CreateMap[string]()
+	myMap["dog"] = "Wilburt"
+	myMap["cat"] = "Scratches"
+	fmt.Println(myMap["dog"], myMap["cat"])
+
+	// Maps can also contain custom data types
+	users := helpers.CreateMap[helpers.UserAccount]()
+	userOne := helpers.UserAccount{
+		FirstName: "Frank",
+		LastName:  "Smith",
+	}
+	users["userOne"] = userOne
+	fmt.Println(users["userOne"])
+
+	// Slices
+	helpers.WorkingWithSlices()
 }
