@@ -51,16 +51,19 @@ func main() {
 	// helpers.ForRangeMap()
 
 	// Interfaces
-	dog := helpers.Dog{
-		Name:  "Freddy",
-		Breed: "German Sheppard",
-	}
-	helpers.PrintInfo(dog)
+	// dog := helpers.Dog{
+	// 	Name:  "Freddy",
+	// 	Breed: "German Sheppard",
+	// }
+	// helpers.PrintInfo(dog)
 
-	gorilla := helpers.Gorilla{
-		Name:          "Biscuit",
-		Color:         "Silver",
-		NumberOfTeeth: 35,
-	}
-	helpers.PrintInfo(gorilla)
+	// gorilla := helpers.Gorilla{
+	// 	Name:          "Biscuit",
+	// 	Color:         "Silver",
+	// 	NumberOfTeeth: 35,
+	// }
+	// helpers.PrintInfo(gorilla)
+
+	// Channels
+	helpers.Channels()
 }

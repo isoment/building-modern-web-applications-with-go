@@ -1,0 +1,12 @@
+Go modules is the modern way we use packages in Go. This replaces the old way of using GOPATH with specific folders.
+
+We need to run the following command in a new project to create a go.mod file...
+
+    go mod init github.com/isoment/my-app
+
+We can create a new package by creating a new directory, in this case it is helpers and within that directory all the files
+will have the following at the start...
+
+    package helpers
+
+Channels are used to send information form one part of the program to another.
