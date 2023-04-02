@@ -19,4 +19,12 @@ func main() {
 	myString := "Green"
 	helpers.ChangeUsingPointer(&myString)
 	fmt.Println(myString)
+
+	// Structs
+	user := helpers.User{
+		FirstName:   "Bob",
+		LastName:    "Smith",
+		PhoneNumber: "834-342-2123",
+	}
+	fmt.Println(user)
 }
