@@ -27,4 +27,8 @@ func main() {
 		PhoneNumber: "834-342-2123",
 	}
 	fmt.Println(user)
+	// We can access the PrintFirstName() method on the struct
+	var myVar helpers.MyStruct
+	myVar.FirstName = "John"
+	fmt.Println(myVar.PrintFirstName())
 }
