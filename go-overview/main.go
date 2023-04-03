@@ -65,5 +65,9 @@ func main() {
 	// helpers.PrintInfo(gorilla)
 
 	// Channels
-	helpers.Channels()
+	// helpers.Channels()
+
+	// Working with JSON
+	helpers.UnmarshallJSON()
+	helpers.MarshallJSON()
 }
