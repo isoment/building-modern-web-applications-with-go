@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/isoment/go-overview/helpers"
 )
 
@@ -68,6 +70,14 @@ func main() {
 	// helpers.Channels()
 
 	// Working with JSON
-	helpers.UnmarshallJSON()
-	helpers.MarshallJSON()
+	// helpers.UnmarshallJSON()
+	// helpers.MarshallJSON()
+
+	// Testing
+	result, err := helpers.Divide(100.0, 10.0)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	log.Println("result of division is", result)
 }

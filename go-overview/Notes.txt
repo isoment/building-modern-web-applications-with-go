@@ -10,3 +10,25 @@ will have the following at the start...
     package helpers
 
 Channels are used to send information form one part of the program to another.
+
+When writing tests in go the tests are in the same location as the files being tested. Go test files must end in _test
+
+    To run all the test in a directory...
+
+        go test -v
+
+    To run a specific test...
+
+        go test -v -run TestDivide ./...
+
+Go has something called table tests, see divide_test.go for how to set this up.
+
+VSCode supports running go tests, click the run icons to the left.
+
+We can check the test coverage of our code...
+
+    go test -cover
+
+For a detailed html printout of test coverage...
+
+    go test -coverprofile=coverage.out && go tool cover -html=coverage.out
