@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/isoment/basic-app/pkg/config"
+	"github.com/isoment/basic-app/pkg/models"
 	"github.com/isoment/basic-app/pkg/render"
 )
 
@@ -28,9 +29,15 @@ func NewHandlers(r *Repository) {
 }
 
 func (m *Repository) Home(res http.ResponseWriter, req *http.Request) {
-	render.RenderTemplate(res, "home.page.html")
+	render.RenderTemplate(res, "home.page.html", &models.TemplateData{})
 }
 
 func (m *Repository) About(res http.ResponseWriter, req *http.Request) {
-	render.RenderTemplate(res, "about.page.html")
+	// Create some string data to pass into the template
+	stringMap := make(map[string]string)
+	stringMap["test"] = "Hello, again."
+
+	render.RenderTemplate(res, "about.page.html", &models.TemplateData{
+		StringMap: stringMap,
+	})
 }

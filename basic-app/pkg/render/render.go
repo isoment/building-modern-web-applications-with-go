@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/isoment/basic-app/pkg/config"
+	"github.com/isoment/basic-app/pkg/models"
 )
 
 // Define a map of functions that can be used in a template
@@ -21,10 +22,15 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
+// Sometimes we may want to add some data that we can use on every page.
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
 /*
 Render a given template.
 */
-func RenderTemplate(res http.ResponseWriter, tmpl string) {
+func RenderTemplate(res http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
 
 	// If the application is in development we may not want to use the template cache,
@@ -41,10 +47,12 @@ func RenderTemplate(res http.ResponseWriter, tmpl string) {
 		log.Fatal("Could not get template from template cache")
 	}
 
-	// Create a new buffer in memory for manipulating byte data. We can call execute on
-	// the template passing in the buffer.
+	// Create a new buffer in memory for manipulating byte data.
 	buf := new(bytes.Buffer)
-	_ = t.Execute(buf, nil)
+
+	td = AddDefaultData(td)
+	// We can call execute on the template passing in the buffer.
+	_ = t.Execute(buf, td)
 
 	// We write the buffer data to the http.ResponseWriter
 	_, err := buf.WriteTo(res)
