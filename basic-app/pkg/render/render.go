@@ -1,8 +1,10 @@
 package render
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"path/filepath"
 )
@@ -10,22 +12,39 @@ import (
 // Define a map of functions that can be used in a template
 var functions = template.FuncMap{}
 
-func RenderTemplate(res http.ResponseWriter, t string) {
-	_, err := RenderTemplateTest(res)
+/*
+Render a given template.
+*/
+func RenderTemplate(res http.ResponseWriter, template string) {
+	// Create a template cache and check for errors
+	tc, err := CreateTemplateCache()
 	if err != nil {
-		fmt.Println("Error getting template cache")
+		log.Fatal(err)
 	}
 
-	parsedTemplate, _ := template.ParseFiles("./templates/" + t)
+	// Find the requested template in the cache
+	t, ok := tc[template]
+	if !ok {
+		log.Fatal(err)
+	}
 
-	err = parsedTemplate.Execute(res, nil)
+	// Create a new buffer in memory for manipulating byte data. We can call execute on
+	// the template passing in the buffer.
+	buf := new(bytes.Buffer)
+	_ = t.Execute(buf, nil)
+
+	// We write the buffer data to the http.ResponseWriter
+	_, err = buf.WriteTo(res)
 	if err != nil {
-		fmt.Println("error parsing template", err)
-		return
+		fmt.Println("Error writing template to browser", err)
 	}
 }
 
-func RenderTemplateTest(res http.ResponseWriter) (map[string]*template.Template, error) {
+/*
+We want to parse all of the templates including the layouts and store them in a map, this
+will be our template cache.
+*/
+func CreateTemplateCache() (map[string]*template.Template, error) {
 	// Define a map where the key is a string and the value is a pointer to a template
 	myCache := map[string]*template.Template{}
 
@@ -38,7 +57,6 @@ func RenderTemplateTest(res http.ResponseWriter) (map[string]*template.Template,
 	// Loop over the page html files pages
 	for _, page := range pages {
 		name := filepath.Base(page)
-		fmt.Println("Page is currently", page)
 
 		// Create a new template for each page, attach any functions
 		// we want to use
@@ -61,9 +79,10 @@ func RenderTemplateTest(res http.ResponseWriter) (map[string]*template.Template,
 			}
 		}
 
-		// Add the template to the map we defined above.
 		myCache[name] = ts
 	}
+
+	fmt.Println(myCache)
 
 	return myCache, nil
 }
