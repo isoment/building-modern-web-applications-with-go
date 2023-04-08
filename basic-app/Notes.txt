@@ -1,0 +1,3 @@
+To compile all of the go files in a directory...
+
+    go run *.go
