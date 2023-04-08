@@ -7,25 +7,38 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/isoment/basic-app/pkg/config"
 )
 
 // Define a map of functions that can be used in a template
 var functions = template.FuncMap{}
 
+var app *config.AppConfig
+
+// Sets the config for the template
+func NewTemplates(a *config.AppConfig) {
+	app = a
+}
+
 /*
 Render a given template.
 */
-func RenderTemplate(res http.ResponseWriter, template string) {
-	// Get the template cache from the app config
-	tc, err := CreateTemplateCache()
-	if err != nil {
-		log.Fatal(err)
+func RenderTemplate(res http.ResponseWriter, tmpl string) {
+	var tc map[string]*template.Template
+
+	// If the application is in development we may not want to use the template cache,
+	// we include this check to see if it is disabled in the application config.
+	if app.UseCache {
+		tc = app.TemplateCache
+	} else {
+		tc, _ = CreateTemplateCache()
 	}
 
 	// Find the requested template in the cache
-	t, ok := tc[template]
+	t, ok := tc[tmpl]
 	if !ok {
-		log.Fatal(err)
+		log.Fatal("Could not get template from template cache")
 	}
 
 	// Create a new buffer in memory for manipulating byte data. We can call execute on
@@ -34,7 +47,7 @@ func RenderTemplate(res http.ResponseWriter, template string) {
 	_ = t.Execute(buf, nil)
 
 	// We write the buffer data to the http.ResponseWriter
-	_, err = buf.WriteTo(res)
+	_, err := buf.WriteTo(res)
 	if err != nil {
 		fmt.Println("Error writing template to browser", err)
 	}
