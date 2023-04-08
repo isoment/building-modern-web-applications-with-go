@@ -10,3 +10,15 @@ to our applications.
 After refactoring our application into packages we can run it by using...
 
     go run ./cmd/web/*.go
+
+We want to create a config package that can be used in other parts of our application for configuration
+related stuff. We want to avoid importing other packages here since it can be used in any other parts of
+the application. If we are not mindful of this we can get into a situation where we are stuck in an
+import cycle and the application will not compile.
+
+    The config package will be imported in many different places and will use the standard library but
+    it will not be importing other packages.
+
+    Go import cycles occur when two or more packages depend on each other, either directly or indirectly, 
+    forming a cycle in the import graph. This means that a package A imports a package B, which in turn 
+    imports package A, and so on, forming a closed loop.

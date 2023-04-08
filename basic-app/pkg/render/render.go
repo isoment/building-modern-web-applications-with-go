@@ -16,7 +16,7 @@ var functions = template.FuncMap{}
 Render a given template.
 */
 func RenderTemplate(res http.ResponseWriter, template string) {
-	// Create a template cache and check for errors
+	// Get the template cache from the app config
 	tc, err := CreateTemplateCache()
 	if err != nil {
 		log.Fatal(err)
@@ -81,8 +81,6 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 
 		myCache[name] = ts
 	}
-
-	fmt.Println(myCache)
 
 	return myCache, nil
 }
