@@ -1,3 +1,12 @@
 To compile all of the go files in a directory...
 
     go run *.go
+
+Go modules are used for package management in Go, we can use external packages to add functionality
+to our applications.
+
+    go mod init github.com/<name>/<package>
+
+After refactoring our application into packages we can run it by using...
+
+    go run ./cmd/web/*.go
