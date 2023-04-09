@@ -22,3 +22,12 @@ import cycle and the application will not compile.
     Go import cycles occur when two or more packages depend on each other, either directly or indirectly, 
     forming a cycle in the import graph. This means that a package A imports a package B, which in turn 
     imports package A, and so on, forming a closed loop.
+
+To install an external package from the root of the project where the go.mod file is located run the following...
+
+    go get github.com/bmizerany/pat
+
+    This will install the pat router. An HTTP request multiplexer is a piece of software that is used to 
+    route incoming HTTP requests to the appropriate handlers based on their URL paths and HTTP methods.
+
+    We can see that the go.mod file was updated and a go.sum file was created.
