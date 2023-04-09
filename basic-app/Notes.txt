@@ -31,3 +31,22 @@ To install an external package from the root of the project where the go.mod fil
     route incoming HTTP requests to the appropriate handlers based on their URL paths and HTTP methods.
 
     We can see that the go.mod file was updated and a go.sum file was created.
+
+We can install a new router called chi, it has some more features and is more widely used compared to pat.
+It also has support for middleware built in.
+
+    go get -u github.com/go-chi/chi/v5
+
+To remove any unused packages from our project we can run the following...
+
+    go mod tidy.
+
+Chi has a very simple API...
+
+	mux := chi.NewRouter()
+	mux.Use(middleware.Recoverer)
+	mux.Get("/", handlers.Repo.Home)
+	return mux
+
+We can use middleware Use(), there are some built in and we can also create our own. All the middlewares are
+net/http compatible
