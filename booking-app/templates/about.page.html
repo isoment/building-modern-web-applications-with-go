@@ -1,0 +1,21 @@
+{{template "base" .}}
+{{define "content"}}
+  <div class="container">
+    <div class="row">
+      <div class="col mt-4">
+        <h1>About</h1>
+        <p>Welcome to the about page.</p>
+        <!-- This is the syntax for accessing data passed into the template -->
+        <p>Here is some more text for you to read: {{index .StringMap "test"}}</p>
+        <!-- An if statement for checking to see if the remote_ip value is not empty -->
+        <p>
+          {{if ne (index .StringMap "remote_ip") ""}}
+            Your remote IP address is {{index .StringMap "remote_ip"}}
+          {{else}}
+            Please visit <a href="/">HOME</a> to set your IP address
+          {{end}}
+        </p>
+      </div>
+    </div>
+  </div>
+{{end}}
