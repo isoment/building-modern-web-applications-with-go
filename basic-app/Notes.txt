@@ -50,3 +50,9 @@ Chi has a very simple API...
 
 We can use middleware Use(), there are some built in and we can also create our own. All the middlewares are
 net/http compatible
+
+There is a package we can use to implement CSRF protection...
+
+    go get github.com/justinas/nosurf
+
+We can create a custom middleware for creating CSRF tokens. These get set as a cookie on the users browser.

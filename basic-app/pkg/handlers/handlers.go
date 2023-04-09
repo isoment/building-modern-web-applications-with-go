@@ -28,16 +28,16 @@ func NewHandlers(r *Repository) {
 	Repo = r
 }
 
-func (m *Repository) Home(res http.ResponseWriter, req *http.Request) {
-	render.RenderTemplate(res, "home.page.html", &models.TemplateData{})
+func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "home.page.html", &models.TemplateData{})
 }
 
-func (m *Repository) About(res http.ResponseWriter, req *http.Request) {
+func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	// Create some string data to pass into the template
 	stringMap := make(map[string]string)
 	stringMap["test"] = "Hello, again."
 
-	render.RenderTemplate(res, "about.page.html", &models.TemplateData{
+	render.RenderTemplate(w, "about.page.html", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }

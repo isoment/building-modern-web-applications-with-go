@@ -30,7 +30,7 @@ func AddDefaultData(td *models.TemplateData) *models.TemplateData {
 /*
 Render a given template.
 */
-func RenderTemplate(res http.ResponseWriter, tmpl string, td *models.TemplateData) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
 
 	// If the application is in development we may not want to use the template cache,
@@ -55,7 +55,7 @@ func RenderTemplate(res http.ResponseWriter, tmpl string, td *models.TemplateDat
 	_ = t.Execute(buf, td)
 
 	// We write the buffer data to the http.ResponseWriter
-	_, err := buf.WriteTo(res)
+	_, err := buf.WriteTo(w)
 	if err != nil {
 		fmt.Println("Error writing template to browser", err)
 	}
