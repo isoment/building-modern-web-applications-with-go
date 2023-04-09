@@ -56,3 +56,7 @@ There is a package we can use to implement CSRF protection...
     go get github.com/justinas/nosurf
 
 We can create a custom middleware for creating CSRF tokens. These get set as a cookie on the users browser.
+
+We want a way to implement sessions using Go. This package supports many different kinds of session storage...
+
+    go get github.com/alexedwards/scs/v2

@@ -19,16 +19,24 @@ func WriteToConsole(next http.Handler) http.Handler {
 }
 
 /*
-Create a new nosurf token. Path tells us it can be sued on the entire site, Secure is disabled now
-since for development we don't have TLS
+Create a new nosurf token. to provider CSRF protection to POST requests. Path tells us it can be
+used on the entire site, Secure is disabled now since for development we don't have https.
 */
 func NoSurf(next http.Handler) http.Handler {
 	csrfHandler := nosurf.New(next)
 	csrfHandler.SetBaseCookie(http.Cookie{
 		HttpOnly: true,
 		Path:     "/",
-		Secure:   false,
+		Secure:   app.InProduction,
 		SameSite: http.SameSiteLaxMode,
 	})
 	return csrfHandler
+}
+
+/*
+We need a middleware to make our application aware of sessions. We can do this using the LoadAndSave
+middleware that scs provides.
+*/
+func SessionLoad(next http.Handler) http.Handler {
+	return session.LoadAndSave(next)
 }
