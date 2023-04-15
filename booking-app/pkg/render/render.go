@@ -10,6 +10,7 @@ import (
 
 	"github.com/isoment/booking-app/pkg/config"
 	"github.com/isoment/booking-app/pkg/models"
+	"github.com/justinas/nosurf"
 )
 
 // Define a map of functions that can be used in a template
@@ -23,14 +24,15 @@ func NewTemplates(a *config.AppConfig) {
 }
 
 // Sometimes we may want to add some data that we can use on every page.
-func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
 /*
 Render a given template.
 */
-func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
 
 	// If the application is in development we may not want to use the template cache,
@@ -50,7 +52,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 	// Create a new buffer in memory for manipulating byte data.
 	buf := new(bytes.Buffer)
 
-	td = AddDefaultData(td)
+	td = AddDefaultData(td, r)
 	// We can call execute on the template passing in the buffer.
 	_ = t.Execute(buf, td)
 
