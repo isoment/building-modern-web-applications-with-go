@@ -1,0 +1,48 @@
+{{template "base" .}}
+{{define "content"}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <h1 class="text-center mt-4">Search Availability</h1>
+      <form action="reservation.html" method="GET" novalidate class="needs-validation">
+        <div class="row">
+          <div class="col">
+            <div id="picker" class="row">
+              <div class="col">
+                <input class="form-control" type="text" name="reservation-dates-start" required placeholder="Arrival">
+              </div>
+              <div class="col">
+                <input class="form-control" type="text" name="reservation-dates-end" required placeholder="Departure">
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="search-btn btn btn-primary">Search Availability</button>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button id="colorButton" class="btn btn-outline-info">Click Me</button>
+    </div>
+  </div>
+</div>
+{{end}}
+
+{{define "js"}}
+<script>
+  // Some test JS
+  const buttonToggle = () => {
+    attention.custom({msg: html});
+  }
+
+  // Set up the date picker
+  const elem = document.getElementById('picker');
+  const rangepicker = new DateRangePicker(elem, {
+    format: "yyyy-mm-dd"
+  }); 
+
+  document.getElementById("colorButton").addEventListener("click", buttonToggle);
+</script>
+{{end}}
