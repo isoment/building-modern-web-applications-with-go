@@ -102,6 +102,8 @@
     <script src="https://unpkg.com/notie"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
+      const attention = Prompt();
+
       // Example starter JavaScript for disabling form submissions if there are invalid fields
       (() => {
         'use strict'
@@ -121,8 +123,8 @@
       const myParagraph = document.getElementById("myParagraph");
       const toggleClasses = ["mt-3", "text-bg-danger"];
       const buttonToggle = () => {
-        notify("Test message", "success");
-        sweetAlert("Test", "<em>Hello World</em>", "success", "Test");
+        attention.notify("Test message", "success");
+        attention.sweetAlert("Test", "<em>Hello World</em>", "success", "Test");
         let classCount = 0;
         toggleClasses.forEach(e => {
           if (myParagraph.classList.contains(e)) {
@@ -146,21 +148,27 @@
         format: "yyyy-mm-dd"
       }); 
 
-      // Setting up alerts
-      const notify = (msg, type) => {
-        notie.alert({
-          type: type,
-          text: msg,
-        })
-      }
+      function Prompt() {
+        const notify = (msg, type) => {
+          notie.alert({
+            type: type,
+            text: msg,
+          })
+        }
 
-      const sweetAlert = (title, html, icon, confirmButtonText) => {
-        Swal.fire({
-          title,
-          html,
-          icon,
-          confirmButtonText
-        });
+        const sweetAlert = (title, html, icon, confirmButtonText) => {
+          Swal.fire({
+            title,
+            html,
+            icon,
+            confirmButtonText
+          });
+        }
+
+        return {
+          notify,
+          sweetAlert
+        }
       }
 
       document.getElementById("colorButton").addEventListener("click", buttonToggle);
