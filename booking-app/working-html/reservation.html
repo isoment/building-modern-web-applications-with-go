@@ -123,8 +123,8 @@
       const myParagraph = document.getElementById("myParagraph");
       const toggleClasses = ["mt-3", "text-bg-danger"];
       const buttonToggle = () => {
-        attention.notify("Test message", "success");
-        attention.sweetAlert("Test", "<em>Hello World</em>", "success", "Test");
+        attention.error({msg: "Hello World"});
+
         let classCount = 0;
         toggleClasses.forEach(e => {
           if (myParagraph.classList.contains(e)) {
@@ -156,18 +156,65 @@
           })
         }
 
-        const sweetAlert = (title, html, icon, confirmButtonText) => {
+        const success = (c) => {
+          const {
+            msg = "",
+            title = "",
+            footer = "",
+          } = c;
+
           Swal.fire({
-            title,
-            html,
-            icon,
-            confirmButtonText
+            icon: 'success',
+            title: title,
+            text: msg,
+            footer: footer,
           });
+        }
+
+        const error = (c) => {
+          const {
+            msg = "",
+            title = "",
+            footer = "",
+          } = c;
+
+          Swal.fire({
+            icon: 'error',
+            title: title,
+            text: msg,
+            footer: footer,
+          });
+        }
+
+        const toast = (c) => {
+          const {
+            msg = '',
+            icon = 'success',
+            position = 'top-end'
+          } = c;
+
+          const Toast = Swal.mixin({
+            toast: true,
+            title: msg,
+            position: position,
+            icon: icon,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          });
+
+          Toast.fire({});
         }
 
         return {
           notify,
-          sweetAlert
+          success,
+          toast,
+          error
         }
       }
 
