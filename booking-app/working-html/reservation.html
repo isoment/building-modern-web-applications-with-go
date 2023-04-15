@@ -25,6 +25,18 @@
       .search-btn {
         margin-top: 1.5rem;
       }
+
+      .datepicker {
+        z-index: 10000;
+      }
+
+      .datepicker-dropdown {
+        position: static;
+      }
+
+      .swal2-container {
+        height: 600px;
+      }
     </style>
   </head>
   <body>
@@ -87,7 +99,6 @@
       </div>
       <div class="row">
         <div class="col">
-          <p id="myParagraph">This is some text</p>
           <button id="colorButton" class="btn btn-outline-info">Click Me</button>
         </div>
       </div>
@@ -103,6 +114,22 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
       const attention = Prompt();
+      let html = `
+      <form id="check-availability-form" action="" method="POST" novalidate class="needs-validation">
+        <div class="row">
+          <div class="col">
+            <div id="reservation-dates-modal" class="row">
+              <div class="col">
+                <input disabled class="form-control" type="text" name="start" id="start" required placeholder="Arrival">
+              </div>
+              <div class="col">
+                <input disabled class="form-control" type="text" name="end" id="end" required placeholder="Departure">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      `;
 
       // Example starter JavaScript for disabling form submissions if there are invalid fields
       (() => {
@@ -120,26 +147,9 @@
       })();
 
       // Some test JS
-      const myParagraph = document.getElementById("myParagraph");
-      const toggleClasses = ["mt-3", "text-bg-danger"];
       const buttonToggle = () => {
-        attention.error({msg: "Hello World"});
-
-        let classCount = 0;
-        toggleClasses.forEach(e => {
-          if (myParagraph.classList.contains(e)) {
-            classCount++;
-          }
-        });
-        if (classCount === toggleClasses.length) {
-          toggleClasses.forEach(e => {
-            myParagraph.classList.remove(e)
-          });
-        } else {
-          toggleClasses.forEach(e => {
-            myParagraph.classList.add(e)
-          });
-        }
+        // attention.error({msg: "Hello World"});
+        attention.custom({msg: html});
       }
 
       // Set up the date picker
@@ -210,11 +220,48 @@
           Toast.fire({});
         }
 
+        const custom = async (c) => {
+          const {
+            msg = "",
+            title = "",
+          } = c;
+
+          const { value: formValues } = await Swal.fire({
+            title: title,
+            html: msg,
+            backdrop: false,
+            focusConfirm: false,
+            showCancelButton: true,
+            willOpen: () => {
+              const elem = document.getElementById('reservation-dates-modal');
+              const rp = new DateRangePicker(elem, {
+                format: 'yyyy-mm-dd',
+                showOnFocus: true,
+              })
+            },
+            didOpen: () => {
+              document.getElementById('start').removeAttribute('disabled');
+              document.getElementById('end').removeAttribute('disabled');
+            },
+            preConfirm: () => {
+              return [
+                document.getElementById('start').value,
+                document.getElementById('end').value
+              ]
+            }
+          })
+
+          if (formValues) {
+            Swal.fire(JSON.stringify(formValues))
+          }
+        }
+
         return {
           notify,
           success,
           toast,
-          error
+          error,
+          custom
         }
       }
 
