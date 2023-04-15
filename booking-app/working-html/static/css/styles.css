@@ -1,0 +1,41 @@
+.my-footer {
+  height: 5rem;
+  font-size: 0.85rem;
+  background-color: #212529;
+  color: white;
+  margin-top: 2rem;
+  padding: 1.5rem;
+}
+
+.room-image {
+  max-width: 50%;
+}
+
+.search-btn {
+  margin-top: 1.5rem;
+}
+
+.datepicker {
+  z-index: 10000;
+}
+
+.datepicker-dropdown {
+  position: static;
+}
+
+.swal2-container {
+  height: 600px;
+}
+
+.my-footer {
+  height: 5rem;
+  font-size: 0.85rem;
+  background-color: #212529;
+  color: white;
+  margin-top: 2rem;
+  padding: 1.5rem;
+}
+
+.room-image {
+  max-width: 50%;
+}
