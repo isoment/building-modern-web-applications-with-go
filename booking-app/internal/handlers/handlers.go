@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/isoment/booking-app/internal/config"
+	"github.com/isoment/booking-app/internal/forms"
 	"github.com/isoment/booking-app/internal/models"
 	"github.com/isoment/booking-app/internal/render"
 )
@@ -55,7 +56,14 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "make-reservation.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "make-reservation.page.html", &models.TemplateData{
+		// We want to return the form for when there are validation errors
+		Form: forms.New(nil),
+	})
+}
+
+func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
+
 }
 
 func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {

@@ -1,5 +1,7 @@
 package models
 
+import "github.com/isoment/booking-app/internal/forms"
+
 // These are all the different data types we can pass to templates
 type TemplateData struct {
 	StringMap map[string]string
@@ -10,4 +12,5 @@ type TemplateData struct {
 	Flash     string
 	Warning   string
 	Error     string
+	Form      *forms.Form
 }
