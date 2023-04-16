@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/isoment/booking-app/pkg/config"
-	"github.com/isoment/booking-app/pkg/handlers"
-	"github.com/isoment/booking-app/pkg/render"
+	"github.com/isoment/booking-app/internal/config"
+	"github.com/isoment/booking-app/internal/handlers"
+	"github.com/isoment/booking-app/internal/render"
 )
 
 const portNumber = ":8008"

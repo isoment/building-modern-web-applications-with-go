@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/isoment/booking-app/pkg/config"
-	"github.com/isoment/booking-app/pkg/models"
-	"github.com/isoment/booking-app/pkg/render"
+	"github.com/isoment/booking-app/internal/config"
+	"github.com/isoment/booking-app/internal/models"
+	"github.com/isoment/booking-app/internal/render"
 )
 
 // The repository used by the handlers
