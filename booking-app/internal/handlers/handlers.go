@@ -56,9 +56,15 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
+	var emptyReservation models.Reservation
+	data := make(map[string]interface{})
+	data["reservation"] = emptyReservation
+
+	// Render the template with the form, include the empty form and also the empty
+	// reservation on the initial load so we can
 	render.RenderTemplate(w, r, "make-reservation.page.html", &models.TemplateData{
-		// We want to return the form for when there are validation errors
 		Form: forms.New(nil),
+		Data: data,
 	})
 }
 
@@ -78,9 +84,11 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 
 	form := forms.New(r.PostForm)
 
-	form.Has("first_name", r)
+	form.Required("first_name", "last_name", "email")
+	form.MinLength("first_name", 3, r)
 
-	// If there are validation errors...
+	// If there are validation errors we can access the Form struct with the errors in
+	// the template.
 	if !form.Valid() {
 		data := make(map[string]interface{})
 		data["reservation"] = reservation
