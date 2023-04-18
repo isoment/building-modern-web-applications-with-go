@@ -69,12 +69,14 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
+	// Parse the form and check if there was an error
 	err := r.ParseForm()
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
+	// Create a new Reservation model from the form data
 	reservation := models.Reservation{
 		FirstName: r.Form.Get("first_name"),
 		LastName:  r.Form.Get("last_name"),
@@ -84,6 +86,7 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 
 	form := forms.New(r.PostForm)
 
+	// Validate the form
 	form.Required("first_name", "last_name", "email")
 	form.MinLength("first_name", 3, r)
 	form.IsEmail("email")
@@ -100,6 +103,11 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
+
+	// Store the reservation object in the session for when the user is redirected
+	m.App.Session.Put(r.Context(), "reservation", reservation)
+
+	http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
 }
 
 func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
@@ -143,4 +151,21 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 	log.Println(string(out))
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
+}
+
+func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
+	// Here we are getting the reservation from the session. We need to perform a type assertion and
+	// assert it to models.Reservation. If a reservation is found in the session and it can be type
+	// asserted to models.Reservation the ok in the comma ok will be true.
+	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+	if !ok {
+		log.Println("cannot get item from session")
+		return
+	}
+	data := make(map[string]any)
+	data["reservation"] = reservation
+
+	render.RenderTemplate(w, r, "reservation-summary.page.html", &models.TemplateData{
+		Data: data,
+	})
 }

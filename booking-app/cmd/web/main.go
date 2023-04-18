@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/isoment/booking-app/internal/config"
 	"github.com/isoment/booking-app/internal/handlers"
+	"github.com/isoment/booking-app/internal/models"
 	"github.com/isoment/booking-app/internal/render"
 )
 
@@ -18,6 +20,9 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 func main() {
+	// We need to define the non-primitive types we want to store in the session
+	gob.Register(models.Reservation{})
+
 	app.InProduction = false
 
 	// Create a new session, sessions timeout after 24 hours and the cookie
