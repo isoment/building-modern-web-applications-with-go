@@ -92,6 +92,21 @@
         })
       })();
 
+      // Get the error from the session
+      {{with .Error}}
+      attention.notify("{{.}}", "error")
+      {{end}}
+
+      // Get the flash message from the session
+      {{with .Flash}}
+      attention.notify("{{.}}", "success")
+      {{end}}
+
+      // Get the warning message from the session
+      {{with .Warning}}
+      attention.notify("{{.}}", "warning")
+      {{end}}
+
       // Define a Prompt module we want to be able to use throughout our application.
       function Prompt() {
         const notify = (msg, type) => {

@@ -158,10 +158,17 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 	// assert it to models.Reservation. If a reservation is found in the session and it can be type
 	// asserted to models.Reservation the ok in the comma ok will be true.
 	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+	// If there is no reservation in the session we want to put an error into the session and
+	// redirect back to the homepage.
 	if !ok {
 		log.Println("cannot get item from session")
+		m.App.Session.Put(r.Context(), "error", "Can't get reservation from session")
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
+
+	m.App.Session.Remove(r.Context(), "reservation")
+
 	data := make(map[string]any)
 	data["reservation"] = reservation
 
