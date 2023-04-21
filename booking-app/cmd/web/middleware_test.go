@@ -5,6 +5,18 @@ import (
 	"testing"
 )
 
+// func TestWriteToConsole(t *testing.T) {
+// 	var m myHandler
+// 	h := WriteToConsole(&m)
+
+// 	switch v := h.(type) {
+// 	case http.Handler:
+// 		// If it is an http.Handler do nothing
+// 	default:
+// 		t.Errorf("type is not http.Handler, but is %T", v)
+// 	}
+// }
+
 func TestNoSurf(t *testing.T) {
 	var m myHandler
 	h := NoSurf(&m)

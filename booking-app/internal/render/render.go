@@ -18,6 +18,8 @@ var functions = template.FuncMap{}
 
 var app *config.AppConfig
 
+var pathToTemplates = "./templates"
+
 // Sets the config for the template
 func NewTemplates(a *config.AppConfig) {
 	app = a
@@ -75,7 +77,7 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
 	// Get all the template pages but not the layouts
-	pages, err := filepath.Glob("./templates/*.page.html")
+	pages, err := filepath.Glob(fmt.Sprintf("%s/*.page.html", pathToTemplates))
 	if err != nil {
 		return myCache, err
 	}
@@ -92,14 +94,14 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 		}
 
 		// Look for any layout files in the templates directory
-		matches, err := filepath.Glob("./templates/*.layout.html")
+		matches, err := filepath.Glob(fmt.Sprintf("%s/*.layout.html", pathToTemplates))
 		if err != nil {
 			return myCache, err
 		}
 
 		// If we found a layout parse it
 		if len(matches) > 0 {
-			ts, err = ts.ParseGlob("./templates/*.layout.html")
+			ts, err = ts.ParseGlob(fmt.Sprintf("%s/*.layout.html", pathToTemplates))
 			if err != nil {
 				return myCache, err
 			}

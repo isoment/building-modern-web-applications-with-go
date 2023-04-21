@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/justinas/nosurf"
@@ -11,12 +10,12 @@ import (
 This is the format for writing custom middleware. Custom middleware functions always take an http.Handler
 amd return the same. http.HandlerFunc calls the callback and afterwards passes the request onwards
 */
-func WriteToConsole(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Printf("You requested... %s\n", r.URL)
-		next.ServeHTTP(w, r)
-	})
-}
+// func WriteToConsole(next http.Handler) http.Handler {
+// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+// 		fmt.Printf("You requested... %s\n", r.URL)
+// 		next.ServeHTTP(w, r)
+// 	})
+// }
 
 /*
 Create a new nosurf token. to provider CSRF protection to POST requests. Path tells us it can be
