@@ -29,3 +29,20 @@ func TestMain(m *testing.M) {
 
 	os.Exit(m.Run())
 }
+
+// A stub writer we can use to substitute for the http.ResponseWriter
+type myWriter struct{}
+
+// Now we just need to add these three methods to our writer above that satisfy
+// the http.ResponseWriter interface
+func (m *myWriter) Header() http.Header {
+	var h http.Header
+	return h
+}
+
+func (m *myWriter) WriteHeader(statusCode int) {}
+
+func (m *myWriter) Write(a []byte) (int, error) {
+	length := len(a)
+	return length, nil
+}
