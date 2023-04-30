@@ -60,3 +60,7 @@ We can create a custom middleware for creating CSRF tokens. These get set as a c
 We want a way to implement sessions using Go. This package supports many different kinds of session storage...
 
     go get github.com/alexedwards/scs/v2
+
+To run the tests and display coverage...
+
+    go test -coverprofile=coverage.out && go tool cover -html=coverage.out

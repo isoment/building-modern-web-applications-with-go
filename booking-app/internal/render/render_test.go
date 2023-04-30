@@ -51,6 +51,13 @@ func TestRenderTemplate(t *testing.T) {
 	if err == nil {
 		t.Error("Rendered template that does not exist")
 	}
+
+	// Testing rendering templates with the cache enabled
+	app.UseCache = true
+	err = RenderTemplate(&ww, r, "home.page.html", &models.TemplateData{})
+	if err != nil {
+		t.Error("Error rendering template")
+	}
 }
 
 func TestNewTemplates(t *testing.T) {
