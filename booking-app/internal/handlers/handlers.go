@@ -8,6 +8,7 @@ import (
 
 	"github.com/isoment/booking-app/internal/config"
 	"github.com/isoment/booking-app/internal/forms"
+	"github.com/isoment/booking-app/internal/helpers"
 	"github.com/isoment/booking-app/internal/models"
 	"github.com/isoment/booking-app/internal/render"
 )
@@ -72,7 +73,7 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	// Parse the form and check if there was an error
 	err := r.ParseForm()
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
 		return
 	}
 
@@ -144,7 +145,8 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 	// Create a formatted JSON object.
 	out, err := json.MarshalIndent(resp, "", "     ")
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
+		return
 	}
 
 	// Set the response header for json and write it out.
@@ -161,7 +163,7 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 	// If there is no reservation in the session we want to put an error into the session and
 	// redirect back to the homepage.
 	if !ok {
-		log.Println("cannot get item from session")
+		m.App.ErrorLog.Println("Cannot get error from session")
 		m.App.Session.Put(r.Context(), "error", "Can't get reservation from session")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
