@@ -65,5 +65,9 @@ To run the tests and display coverage...
 
     go test -coverprofile=coverage.out && go tool cover -html=coverage.out
 
+To run all the tests for the project change to the root directory and run...
+
+    go test -v ./..
+
 We can create a shell script to simplify building and running our application. See run.sh. This will build a binary
 of our application and then run it.
