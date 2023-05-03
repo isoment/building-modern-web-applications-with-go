@@ -71,3 +71,19 @@ To run all the tests for the project change to the root directory and run...
 
 We can create a shell script to simplify building and running our application. See run.sh. This will build a binary
 of our application and then run it.
+
+
+POSTGRES
+--------
+
+Postgres uses SQL just like MySQL. Although they both use the same language there are some different features.
+
+    Postgres supports some data types that MySQL does not, for example ranges and json
+
+There are some differences in the SQL syntax as well but it is mostly similar to that in MySQL. For example...
+
+    insert into my_table (my_column) values ('My Value');
+
+    update my_table set my_column = 'My Value' where id = 1;
+
+    delete from my_table where id = 1;
