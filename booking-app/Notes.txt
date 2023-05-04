@@ -87,3 +87,25 @@ There are some differences in the SQL syntax as well but it is mostly similar to
     update my_table set my_column = 'My Value' where id = 1;
 
     delete from my_table where id = 1;
+
+To delete clear all the rows from a table...
+
+    delete from my_table;
+
+To drop a table...
+
+    drop table animals;
+
+A basic left join with where clauses...
+
+    select p.first_name,
+        p.last_name,
+        e.email_address,
+        pe.phone_number
+    from people p
+    left join emails e
+        on (e.people_id = p.id)
+    left join phones pe
+        on (pe.people_id = p.id)
+    where p.first_name = 'John'
+    or p.last_name = 'Jones';
