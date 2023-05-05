@@ -109,3 +109,25 @@ A basic left join with where clauses...
         on (pe.people_id = p.id)
     where p.first_name = 'John'
     or p.last_name = 'Jones';
+
+The Buffalo framework has a tool called Soda that can be used for managing migrations...
+
+    https://gobuffalo.io/documentation/database/soda/
+
+Once Soda and Pop are installed we can run...
+
+    ~/go/bin/soda
+
+To create a new migration for a user table...
+
+    ~/go/bin/soda generate fizz CreateUserTable
+
+    There will be two new empty files in the migrations folder, one for up and one for down
+
+Once we have defined a migration we can run migrations using...
+
+    ~/go/bin/soda migrate
+
+We can run the down command to reverse the migrations...
+
+    ~/go/bin/soda migrate down
