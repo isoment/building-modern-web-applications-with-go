@@ -1,0 +1,5 @@
+We need to install a driver in order to communicate with Postgres, pgx is a popular low level driver...
+
+    https://github.com/jackc/pgx
+
+    go get github.com/jackc/pgx/v5
