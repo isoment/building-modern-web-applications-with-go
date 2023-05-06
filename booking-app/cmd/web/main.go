@@ -44,6 +44,9 @@ func main() {
 func run() (*driver.DB, error) {
 	// We need to define the non-primitive types we want to store in the session.
 	gob.Register(models.Reservation{})
+	gob.Register(models.User{})
+	gob.Register(models.Room{})
+	gob.Register(models.Restriction{})
 
 	app.InProduction = false
 
@@ -88,7 +91,7 @@ func run() (*driver.DB, error) {
 	handlers.NewHandlers(repo)
 
 	// Passing the application config where it is needed.
-	render.NewTemplates(&app)
+	render.NewRenderer(&app)
 	helpers.NewHelpers(&app)
 
 	return db, nil

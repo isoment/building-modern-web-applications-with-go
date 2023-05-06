@@ -41,27 +41,27 @@ func TestRenderTemplate(t *testing.T) {
 	var ww myWriter
 
 	// We should be able to render a template that exists
-	err = RenderTemplate(&ww, r, "home.page.html", &models.TemplateData{})
+	err = Template(&ww, r, "home.page.html", &models.TemplateData{})
 	if err != nil {
 		t.Error("Error rendering template")
 	}
 
 	// We should not be able to render a template that does not exist
-	err = RenderTemplate(&ww, r, "fake.page.html", &models.TemplateData{})
+	err = Template(&ww, r, "fake.page.html", &models.TemplateData{})
 	if err == nil {
 		t.Error("Rendered template that does not exist")
 	}
 
 	// Testing rendering templates with the cache enabled
 	app.UseCache = true
-	err = RenderTemplate(&ww, r, "home.page.html", &models.TemplateData{})
+	err = Template(&ww, r, "home.page.html", &models.TemplateData{})
 	if err != nil {
 		t.Error("Error rendering template")
 	}
 }
 
 func TestNewTemplates(t *testing.T) {
-	NewTemplates(app)
+	NewRenderer(app)
 }
 
 func TestCreateTemplateCache(t *testing.T) {
