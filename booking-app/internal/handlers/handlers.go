@@ -7,10 +7,13 @@ import (
 	"net/http"
 
 	"github.com/isoment/booking-app/internal/config"
+	"github.com/isoment/booking-app/internal/driver"
 	"github.com/isoment/booking-app/internal/forms"
 	"github.com/isoment/booking-app/internal/helpers"
 	"github.com/isoment/booking-app/internal/models"
 	"github.com/isoment/booking-app/internal/render"
+	"github.com/isoment/booking-app/internal/repository"
+	"github.com/isoment/booking-app/internal/repository/dbrepo"
 )
 
 // The repository used by the handlers
@@ -19,12 +22,14 @@ var Repo *Repository
 // The Repository type, contains a pointer to the applications config
 type Repository struct {
 	App *config.AppConfig
+	DB  repository.DatabaseRepo
 }
 
 // Creates a new repository, return a pointer to the new Repository
-func NewRepo(a *config.AppConfig) *Repository {
+func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
 		App: a,
+		DB:  dbrepo.NewPostgresRepo(db.SQL, a),
 	}
 }
 

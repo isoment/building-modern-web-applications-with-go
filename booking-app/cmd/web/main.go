@@ -10,6 +10,7 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/isoment/booking-app/internal/config"
+	"github.com/isoment/booking-app/internal/driver"
 	"github.com/isoment/booking-app/internal/handlers"
 	"github.com/isoment/booking-app/internal/helpers"
 	"github.com/isoment/booking-app/internal/models"
@@ -24,10 +25,11 @@ var infoLog *log.Logger
 var errorLog *log.Logger
 
 func main() {
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 
 	fmt.Printf("Starting Application on port %s", portNumber)
 
@@ -39,7 +41,7 @@ func main() {
 	log.Fatal(err)
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	// We need to define the non-primitive types we want to store in the session.
 	gob.Register(models.Reservation{})
 
@@ -62,24 +64,32 @@ func run() error {
 	session.Cookie.Secure = app.InProduction
 	app.Session = session
 
+	// Connect to the database
+	log.Println("Connecting to database...")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookingapp user=user password=secret")
+	if err != nil {
+		log.Fatal("Cannot connect to database")
+	}
+	log.Println("Connected to database")
+
 	// Create a template cache and store it in the AppConfig, we can use the
 	// UseCache value to toggle use of the cache for development mode.
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
-		log.Fatal("cannot create template cache")
-		return err
+		log.Fatal("Cannot create template cache")
+		return nil, err
 	}
 
 	app.UseCache = false
 	app.TemplateCache = tc
 
 	// Create and set the handlers repository.
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
 
 	// Passing the application config where it is needed.
 	render.NewTemplates(&app)
 	helpers.NewHelpers(&app)
 
-	return nil
+	return db, nil
 }
