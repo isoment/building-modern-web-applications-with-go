@@ -6,5 +6,6 @@ import "github.com/isoment/booking-app/internal/models"
 // this in our handlers.
 type DatabaseRepo interface {
 	AllUsers() bool
-	InsertReservation(res models.Reservation) error
+	InsertReservation(res models.Reservation) (int, error)
+	InsertRoomRestriction(rr models.RoomRestriction) error
 }
