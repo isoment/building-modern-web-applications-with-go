@@ -31,7 +31,7 @@ func main() {
 	}
 	defer db.SQL.Close()
 
-	fmt.Printf("Starting Application on port %s", portNumber)
+	fmt.Printf("Starting Application on port %s\n", portNumber)
 
 	srv := &http.Server{
 		Addr:    portNumber,
