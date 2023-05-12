@@ -3,14 +3,22 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h1 class="text-center mt-4">Make Reservation</h1>
-      <p><strong>Reservation Details</strong></p>
-
       {{$res := index .Data "reservation"}}
+      <h1 class="text-center mt-4">Make Reservation</h1>
+      <p></p>
+      <h4><strong>Reservation Details</strong></h4>
+      <h6>Room: {{$res.Room.RoomName}}</h6>
+      <p>Arrival: {{index .StringMap "start_date"}}</p>
+      <p>Departure: {{index .StringMap "end_date"}}</p>
+
       <!-- Disable client side validation for testing -->
       <!-- <form action="/make-reservation" method="POST" class="needs-validation" novalidate> -->
       <form action="/make-reservation" method="POST" novalidate>
         <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+        <input type="hidden" name="start_date" value="{{index .StringMap "start_date"}}">
+        <input type="hidden" name="end_date" value="{{index .StringMap "end_date"}}">
+        <input type="hidden" name="room_id" value="{{$res.RoomId}}">
+
         <!-- First Name -->
         <div class="mt-5">
           <label for="first_name" class="form-label">First Name:</label>
@@ -41,32 +49,6 @@
                  name="last_name" 
                  required 
                  autocomplete="off">
-        </div>
-        <!-- Start Date -->
-        <div>
-          <label for="start_date" class="form-label">Start Date:</label>
-          <input type="text" 
-                 class="form-control"
-                 value="{{$res.StartDate}}"
-                 id="start_date" 
-                 name="start_date" 
-                 required 
-                 autocomplete="off">
-        </div>
-        <!-- End Date -->
-        <div>
-          <label for="end_date" class="form-label">End Date:</label>
-          <input type="text" 
-                 class="form-control"
-                 value="{{$res.EndDate}}"
-                 id="end_date" 
-                 name="end_date" 
-                 required 
-                 autocomplete="off">
-        </div>
-        <!-- Room Id -->
-        <div>
-          <input type="hidden" name="room_id" value="1">
         </div>
         <!-- Email -->
         <div>
