@@ -31,7 +31,8 @@
   // Set up the date picker
   const elem = document.getElementById('picker');
   const rangepicker = new DateRangePicker(elem, {
-    format: "yyyy-mm-dd"
+    format: "yyyy-mm-dd",
+    minDate: new Date(),
   });
 </script>
 {{end}}

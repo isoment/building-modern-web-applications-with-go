@@ -8,8 +8,8 @@
       <p></p>
       <h4><strong>Reservation Details</strong></h4>
       <h6>Room: {{$res.Room.RoomName}}</h6>
-      <p>Arrival: {{index .StringMap "start_date"}}</p>
-      <p>Departure: {{index .StringMap "end_date"}}</p>
+      <h6>Arrival: {{index .StringMap "start_date"}}</h6>
+      <h6>Departure: {{index .StringMap "end_date"}}</h6>
 
       <!-- Disable client side validation for testing -->
       <!-- <form action="/make-reservation" method="POST" class="needs-validation" novalidate> -->
