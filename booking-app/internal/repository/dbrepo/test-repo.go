@@ -1,6 +1,7 @@
 package dbrepo
 
 import (
+	"errors"
 	"time"
 
 	"github.com/isoment/booking-app/internal/models"
@@ -49,5 +50,11 @@ Get a room by id
 */
 func (m *testDBRepo) GetRoomByID(id int) (models.Room, error) {
 	var room models.Room
+
+	// Simulate the case where we get a non existent room
+	if id > 2 {
+		return room, errors.New("some error")
+	}
+
 	return room, nil
 }
